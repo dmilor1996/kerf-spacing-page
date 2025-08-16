@@ -1,0 +1,880 @@
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Kerf Spacing Bending Wood - Metric</title>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=0.4">
+    <meta name="description" content="Calculate kerf spacing for bending wood with printable full scale mark out templates - Metric">
+    <base href="assets/www.blocklayer.com/">
+
+    <link type="text/css" href="css/bl4.css" rel="stylesheet">
+    <link rel="canonical" href="assets/www.blocklayer.com/kerf-spacing">
+    <script src="Scripts/Gen.js" defer async></script>
+    <script src="Scripts/Kerf_V17.js" defer></script>
+    
+<link rel="apple-touch-icon" href="https://www.blocklayer.com/apple-touch-icon.png">
+<script>
+    
+    if (document.cookie.indexOf("BL-GABA") === -1)
+    {
+        var wf = document.createElement("script");
+        wf.src = "assets/pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+        wf.type = "text/javascript";
+        wf.async = "true";
+        wf.crossOrigin = "anonymous";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(wf, s);
+        
+    }
+</script>
+<script async src="assets/www.googletagmanager.com/gtag/js"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-S34J0JV4VJ', { 'page_location': location.origin + location.pathname });
+</script>
+
+    <style>
+        .tblConvert{ font-size:13px;border:solid silver 1px;border-collapse:collapse; }
+        .tblConvert tr td { text-align:left;padding:4px 8px 4px 4px; }
+        .tblConvert tr:nth-child(even) { background-color: #f2f2f2; }
+        .ImpKerf { color:blue; }
+        .DecKerf { color:red;width:50px; }
+    </style>
+</head>
+<body onload="Setup();Menu_Select('tdKerf')">
+    <div style="width:1024px;" class="Main">
+        
+
+<div class="burger" style="width:60px;height:38px;text-align:center;" onclick="location.replace('/')"> 
+    <span style="font-size:20px;line-height:170%;font-weight:bold;">Home</span>
+</div>
+<div class="burger" onclick="_ToggleMenu()" style="width:max-content;height:38px;margin-left:20px;">
+    <div style="display:inline-block;font-size:20px;vertical-align:middle;margin-left:2px;">Menu</div>
+    <div style="display:inline-block;vertical-align:middle;margin-left:2px;">
+        <div class="divBurgerLine"></div>
+        <div class="divBurgerLine"></div>
+        <div class="divBurgerLine"></div>
+    </div>
+</div>
+<label for="__cbPermanentMenu" style="font-size:20px;margin-left:20px;">Sticky Menu</label>
+<input type="checkbox" id="__cbPermanentMenu" onclick="_PermanentMenu(this)">
+<div style="width:160px;display:inline-block;margin-left:30px;">
+    <a id="hlVersion" style="visibility:hidden;" href="#">Version</a>
+</div> 
+<input type="button" value="Diagrams to PDF" onclick="_PrintAllCanvas()" class="BtnSave" style="font-size:18px;margin-left:40px;margin-top:-6px;">
+<div class="SearchBoxLogo" style="margin-left:40px;">
+    <input type="text" id="__txtSearchl" style="width:170px;height:22px;font-size:17px;" placeholder="Site Search" maxlength="60">
+    <input type="button" class="BtnSmall" onclick="GoSearch('l')" style="font-size:16px;" value="Go" title="Search this site">
+</div>
+<div class="Hdr1" style="font-size:18px;margin-top:14px;margin-right:40px;">Please help support us by <span class="JsAction" onclick="GoShare()" style="font-style:italic;">telling friends and colleagues</span> about this site!</div>
+<a href="/calculatordirectory" class="Btn" style="vertical-align:middle;">Calculator Directory</a>
+<div id="divHeaderGad" style="margin-top:12px;">
+    <div id="L1_pnlHeaderGad" style="width:1010px;overflow:hidden;">
+	
+        <div class="AdLabel">Advertisement</div>
+        <!-- Blocklayer_Header_Resp -->
+        <ins class="adsbygoogle HeaderGad" 
+            style="display:block;max-width:1000px;max-height:120px;"
+            data-ad-client="ca-pub-2954195544990546"
+            data-ad-slot="1014789887"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    
+</div>
+</div>
+<br>
+        
+<div id="divMenuTop">
+<table class="menu">
+    <tr title="METRIC"> 
+        <td style="width:60px;">
+            <a id="tdWallFrame" href="/wall-framing">Wall<br>Framing</a>
+        </td>
+        <td style="width:88px;">
+            <a id="tdWainscot" href="/wainscoting">Wainscoting<br>Design App</a>
+        </td>
+        <td style="width:88px;">
+            <a id="tdShaker" href="/shaker-panels">Shaker Wall<br>Paneling</a>
+        </td>
+        <td style="width:88px;">
+            <a id="tdShakerStairs" href="/shaker-panels-stair">Shaker Stair<br>Paneling</a>
+        </td>
+        <td style="width:70px;">
+            <a id="tdBalusterSpacing" href="/baluster-spacing">Baluster<br>Spacing</a>
+        </td>
+        <td style="width:100px;">
+            <a id="tdCentersSpacing" href="/centers-spacing">Board Batten<br>Spacing</a>
+        </td>
+        <td style="width:70px;">
+            <a id="tdCentersAngle" href="/centers-angle">Angled<br>Spacing</a>
+        </td>
+        <td style="width:60px;">
+            <a id="tdStudsAngle" href="/gable-studs">Gable<br>Studs</a>
+        </td>
+        <td style="width:100px;">
+            <a id="tdKerf" href="/kerf-spacing">Kerf Spacing<br>Wood Bending</a>
+        </td>
+        <td style="width:100px;">
+            <a id="tdKerfEllipse" href="/kerf-spacing-ellipse">Kerf Spacing<br>Ellipse Curve</a>
+        </td>
+        <td style="width:90px;">
+	        <a id="tdTurnSegments" href="/woodturning-segments">Woodturning<br>Segments</a>
+	    </td>
+        <td style="width:60px;">
+            <a id="tdTaperedStaves" href="/tapered-staves">Tapered<br>Staves</a>
+        </td>
+    </tr><tr>
+        <td>
+            <a id="tdWallFrameE" href="/wall-framingeng"><span>Inch</span></a>
+        </td>
+        <td>
+            <a id="tdWainscotE" href="/wainscotingeng"><span>Inch</span></a>
+        </td>
+        <td>
+            <a id="tdShakerE" href="/shaker-panelseng"><span>Inch</span></a>
+        </td>
+        <td>
+            <a id="tdShakerStairsE" href="/shaker-panels-staireng"><span>Inch</span></a>
+        </td>
+        <td>
+            <a id="tdBalusterSpacingE" href="/baluster-spacingeng"><span>Inch</span></a>
+        </td>
+        <td>
+            <a id="tdCentersSpacingE" href="/centers-spacingeng"><span>Inch</span></a>
+        </td>
+        <td>
+            <a id="tdCentersAngleE" href="/centers-angleeng"><span>Inch</span></a>
+        </td>
+        <td>
+            <a id="tdStudsAngleE" href="/gable-studseng"><span>Inch</span></a>
+        </td>
+        <td>
+            <a id="tdKerfE" href="/kerf-spacingeng"><span>Inch</span></a>
+        </td>
+        <td>
+            <a id="tdKerfEllipseE" href="/kerf-spacing-ellipseeng"><span>Inch</span></a>
+        </td>
+        <td>
+	        <a id="tdTurnSegmentsE" href="/woodturning-segmentseng"><span>Inch</span></a>
+	    </td>
+        <td>
+            <a id="tdTaperedStavesE" href="/tapered-staveseng"><span>Inch</span></a>
+        </td>
+    </tr>
+</table>
+<table class="menu" style="margin-top:8px;">
+    <tr title="METRIC">
+        <td style="width:60px;">
+            <a id="tdHoleSpacing" href="/hole-spacing/single-row">Hole<br>Spacing</a>
+        </td>
+        <td style="width:60px;">
+            <a id="tdPlantSpacing" href="/plant-spacing">Plant<br>Spacing</a>
+        </td>
+        <td style="width:70px;">
+            <a id="tdShelfSpacing" href="/shelf-spacing">Shelf<br>Spacing</a>
+        </td>
+        <td style="width:60px;">
+            <a id="tdCircleCenters" href="/circle-centers">Circle<br>Centers</a>
+        </td>
+        <td style="width:70px;">
+            <a id="tdCircleBars" href="/circle-bars">Boards<br>In Circle</a>
+        </td>
+        <td style="width:60px;">
+	        <a id="tdPavingCircles" href="/paving-circles">Paving<br>Circles</a>
+	    </td>
+        <td style="width:70px;">
+            <a id="tdMasonryArch" href="/masonry-arch">Masonry<br>Arch</a>
+        </td>
+        <td style="width:70px;">
+            <a id="tdTiles" href="/tiles">Tile Fit<br>Spacing</a>
+        </td>
+        <td style="width:70px;">
+            <a id="tdTileFloor" href="/tile-fit-floor">Tile Fit<br>To Floor</a>
+        </td>
+        <td style="width:80px;">
+            <a id="tdRun" href="/running-setout">Running<br>Set-out</a>
+        </td>
+        <td style="width:110px;">
+            <a id="tdFence" href="/fence/post-panel">Fence Spacing<br>Posts Panels</a>
+        </td>
+        <td style="width:90px;">
+            <a id="tdDiminishingAngle" href="/diminishing-lengths">Diminishing<br>Lengths</a>
+        </td>
+        <td style="width:70px;">
+            <a id="tdFastenerSpacing" href="/fastener-spacing">Fastener<br>Spacing</a>
+        </td>
+        <td style="width:60px;">
+            <a id="tdBrickGauge" href="/brick-gauge">Brick<br>Gauge</a>
+        </td>
+    </tr><tr>
+        <td>
+            <a id="tdHoleSpacingE" href="/hole-spacing/single-roweng"><span>Inch</span></a>
+        </td>
+        <td>
+            <a id="tdPlantSpacingE" href="/plant-spacingeng"><span>Inch</span></a>
+        </td>
+        <td>
+            <a id="tdShelfSpacingE" href="/shelf-spacingeng"><span>Inch</span></a>
+        </td>
+        <td>
+            <a id="tdCircleCentersE" href="/circle-centerseng"><span>Inch</span></a>
+        </td>
+        <td>
+	        <a id="tdCircleBarsE" href="/circle-barseng"><span>Inch</span></a>
+	    </td>
+        <td>
+	        <a id="tdPavingCirclesE" href="/paving-circleseng"><span>Inch</span></a>
+	    </td>
+        <td>
+            <a id="tdMasonryArchE" href="/masonry-archeng"><span>Inch</span></a>
+        </td>
+        <td>
+            <a id="tdTilesE" href="/tileseng"><span>Inch</span></a>
+        </td>
+        <td>
+            <a id="tdTileFloorE" href="/tile-fit-flooreng"><span>Inch</span></a>
+        </td>
+        <td>
+            <a id="tdRunEng" href="/running-setouteng"><span>Inch</span></a>
+        </td>
+        <td>
+            <a id="tdFenceE" href="/fence/post-paneleng"><span>Inch</span></a>
+        </td>
+        <td>
+            <a id="tdDiminishingAngleE" href="/diminishing-lengthseng"><span>Inch</span></a>
+        </td>
+        <td>
+            <a id="tdFastenerSpacingE" href="/fastener-spacingeng"><span>Inch</span></a>
+        </td>
+        <td></td>
+    </tr>
+</table>
+</div>
+        <br>
+        <span class="Hdr1">Kerf Spacing Calculator for Bending Wood</span>
+        <img src="/images/alert.png" style="width:32px;height:34px;vertical-align:bottom;margin-left:32px;" alt="Kerf Bend Ellipse">
+        <span style="font-size:24px;color:red;">See also: <a href="/kerf-spacing-ellipse">Kerf Spacing Ellipse</a></span>
+        <br><br>
+        <table style="width:100%;">
+            <tr>
+                <td style="width:400px;vertical-align:top;">
+                    <table class="InTable">
+                        <tr>
+                            <td style="text-align:center;">
+                                Curve Radius (outside)
+                            </td>
+                            <td>
+                                <input type="text" id="txtRadiusOut" class="Num" value="300" style="width:60px;">
+                                <input type="range" id="rngRadius" min="20" max="1000" value="300" step="1" oninput="rngRadius_change(this)" style="width:120px;">
+                            </td>
+                        </tr><tr>
+                            <td style="text-align:center;">
+                                Curve Sweep Angle
+                            </td>
+                            <td>
+                                <input type="text" id="txtAngle" class="Num" value="90" style="width:60px;">
+                                <input type="range" id="rngAngle" min="10" max="180" value="90" step="1" oninput="rngAngle_change(this)" style="width:120px;">
+                            </td>
+                        </tr><tr>
+                            <td style="text-align:center;">
+                                <div class="Tooltip help">&quest;
+                                    <div class="Tooltiptext">
+                                        Thinner kerf cuts will be spaced closer together giving a smoother curve. Wider cuts may give a curve with segments having sharper bends at the kerf cut.
+                                    </div>
+                                </div>
+                                Kerf Width
+                            </td>
+                            <td>
+                                <input type="text" id="_txtKerfThick" class="Num" value="2" style="width:60px;">
+                                <input type="range" id="rngCutThick" min="0.5" max="4.0" value="2" step="0.01" oninput="rngCutThick_change(this)" style="width:120px;">
+                            </td>
+                        </tr><tr>
+                            <td style="text-align:center;">
+                                Wood Thickness
+                            </td>
+                            <td>
+                                <input type="text" id="txtWoodThick" class="Num" value="20" style="width:60px;">
+                            </td>
+                        </tr><tr>
+                            <td style="text-align:center;">
+                                <div class="Tooltip help">&quest;
+                                    <div class="Tooltiptext" style="width:320px;">
+                                        Thickness of remaining wood after kerf is cut.<br>
+                                        The optimum Minimum Thickness of wood to obtain the curve cannot be calculated. 
+                                        It depends on the type of wood, grain, dimensions etc.<br>Test with scrap first to perfect.
+                                    </div>
+                                </div>
+                                Min Thickness
+                            </td>
+                            <td>
+                                <input type="text" id="_txtMinThick" class="Num" value="3" style="width:60px;">
+                                <input type="button" value="Calculate" onclick="Calculate()" class="Btn" style="margin-left:20px;">
+                            </td>
+                        </tr>
+                    </table>
+                    <span id="spnWontFit" style="font-size:16px;color:red;display:none;">Will not fit</span>
+                </td>
+                <td style="width:240px;vertical-align:top;">
+                   <table class="InTable">
+                       <tr>
+                            <td colspan="2" style="text-align:center;">
+                                <div style="display:inline-block;vertical-align:top;">
+                                    <div class="Tooltip help">&quest;
+                                        <div class="Tooltiptext" style="width:260px;">Board starts off straight, curves, then continues straight again.<br>Kerfs start and end at each end of curve.<br>See diagrams</div>
+                                    </div>
+                                    <br>
+                                    <div class="Tooltip help" style="margin-top:18px;">&quest;
+                                        <div class="Tooltiptext">Curve is entire length of board.<br>Kerfs start 1 space in from ends.<br>See diagrams</div>
+                                    </div>
+                                </div>
+                                <div class="rblButtons">
+                                    <div style="width:150px;">
+                                        <input type="radio" name="rblStartCurve" id="rbCurveFromBoard" onclick="Calculate()" checked>
+                                        <label for="rbCurveFromBoard">Curve in Longer Board</label>
+                                    </div>
+                                    <br>
+                                    <div style="width:150px;margin-top:12px;">
+                                        <input type="radio" name="rblStartCurve" id="rbCurveFromEnds" onclick="Calculate()">
+                                        <label for="rbCurveFromEnds">Curve End to End</label> 
+                                    </div>
+                                </div>
+                            </td>
+                        </tr><tr><td colspan="2"><hr class="hrThin"></td></tr><tr>
+                            <td style="text-align:center;">
+                                <div class="Tooltip help">&quest;
+                                    <div class="Tooltiptext" style="width:300px;">
+                                        Cut kerfs with a router and tapered bit to remove gaps.
+                                        <br>
+                                        Rout test piece with tapered bit at required depth to measure Kerf Width entry.
+                                        <br>
+                                        See Tapered Bit Kerf Width Calculator below.
+                                    </div>
+                                </div>
+                                <label for="cbRouter">Router Tapered</label>
+                            </td>
+                            <td>
+                                <input type="checkbox" id="cbRouter" onclick="Calculate()">
+                            </td>
+                        </tr><tr>
+                            <td style="text-align:center;">
+                                <div class="Tooltip help">&quest;
+                                    <div class="Tooltiptext" style="width:300px;">
+                                        Draw Curved Diagram with straight <strong>Facets</strong> between kerfs, instead of an even curve. 
+                                        Thinner kerfs will shorten distance between cuts, and lessen faceting effect. See Diagram.
+                                    </div>
+                                </div>
+                                <label for="cbFacet">Draw Faceted</label>
+                            </td>
+                            <td>
+                                <input type="checkbox" id="cbFacet" onclick="Calculate()">
+                            </td>
+                        </tr><tr>
+                            <td colspan="2" style="text-align:center;">
+                                <label for="cbColor">Colour</label> <input type="checkbox" id="cbColor" checked="checked" onclick="Calculate()">
+                                <label for="cbDims" style="margin-left:10px;">Dimensions</label> <input type="checkbox" id="cbDims" checked="checked" onclick="Calculate()">
+                            </td>
+                        </tr>
+                   </table>
+                </td>
+                <td>
+                    <span id="spnRes"></span>
+                    <br><br>
+                    Scale
+                    <input type="range" id="rngScale" min="600" max="3000" value="980" step="1" oninput="Calculate()" style="width:120px;">
+                </td>
+            </tr>
+        </table>
+        <br>
+    </div>
+    <canvas id="cnvsKerfProfile" width="980" height="150" class="CnvsCenter">Kerf spacing calculator diagram straight</canvas>
+    <br>
+    <canvas id="cnvsCurve" width="980" height="306" class="CnvsCenter">Kerf spacing calculator diagram curved</canvas>
+    <br><br>
+    <canvas id="cnvsTemplate" width="980" height="100" class="CnvsCenter">Kerf spacing full scale template</canvas>
+    <div style="width:1024px;margin:auto;" class="Main">
+        <br>
+        Running Centres:
+        <br>
+        <span id="spnRun" class="CalcRes" onclick="FormatRun(this)"></span>
+        <span class="Mob" onclick="window.open('/run-list.aspx?rd=spnRun')">Mark-out</span>
+        <input type="button" value="Speak" class="BtnSmall" onclick="_ToggleSpeakList(this, 'spnRun')" style="margin-left:12px;">
+        <br><br>
+        <div class="Row">
+            <div class="Col1">
+                This calculator finds the spacing of the cuts (at entered dimensions), so when the piece is bent, the inside edges of each cut touch together to form the correct curve.
+                <img src="/images/alert3.png" style="width:22px;height:23px;vertical-align:middle;" alt="Minimum wood thickness for bend">
+                The optimum depth of the cut, and thus remaining <span class="Strng">minimum thickness</span> of wood to obtain the curve cannot be calculated. 
+                It depends on the type of wood, grain, dimensions etc. <span class="Strng">Test your dimensions and cut depth on pieces of scrap first, to perfect.</span>
+            </div>
+            <div class="Col2">
+                Geometrically, more, closer and thinner kerf cuts should give a smoother curve -- Less and wider cuts may give a curve with segments having sharper bends at the kerf cut.
+	            Please <span class="JsAction" onclick="_Contact()">let us know</span> your experience re: optimal actual curves, using different wood, min thickness, kerf thickness etc, so we can try to improve this calculator.
+            </div>
+        </div>
+        <br><br>
+        
+<div class="AdLabel">Advertisement</div>
+<!-- Blocklayer_980x160 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:970px;height:160px"
+     data-ad-client="ca-pub-2954195544990546"
+     data-ad-slot="3337881954"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<br>
+        <br>
+        <table style="width:100%;">
+            <tr>
+                <td style="width:410px;vertical-align:top;">
+                    <span class="Hdr1">Tapered Router Bit - Kerf Width Calculator</span>
+                    <br><br>                    
+                     Calculate Kerf Width here, then check <strong>Router Tapered</strong> and enter Kerf Width <span id="spnKerfWidth" style="font-size:18px;color:#f00;"></span> in top calculator.
+                    <br><br>
+                    <table class="InTable" style="margin:auto;">
+                        <tr>
+                            <td style="text-align:center;width:120px;">
+                                <div class="Tooltip help">&quest;
+                                    <div class="Tooltiptext">
+                                         Taper angle per side.<br>Total taper angle = 2 times this angle.
+                                    </div>
+                                </div>
+                                Taper Angle &deg;
+                            </td>
+                            <td>
+                                <input type="text" id="_txtBitAngle" class="Num" value="6.35" style="width:60px;">
+                                <input type="range" id="rngBitAngle" min="2" max="12" step="0.1" value="6.35" oninput="rngBitAngle_change(this)" style="width:120px;">
+                            </td>
+                        </tr><tr>
+                            <td style="text-align:center;">
+                                Shank Diameter
+                            </td>
+                            <td>
+                                <input type="text" id="_txtDiam" class="Num" value="6.2" style="width:60px;">
+                                <input type="range" id="rngDiam" min="3" max="16" step="0.1" value="6.2" oninput="rngDiam_change(this)" style="width:120px;">
+                            </td>
+                        </tr><tr>
+                            <td style="text-align:center;">
+                                <div class="Tooltip"><img src="/images/alert3.png" alt="" style="width:22px;height:23px;vertical-align:middle;">
+                                    <div class="Tooltiptext">
+                                        Use smallest tip possible to reduce gap at bottom of cut !
+                                    </div>
+                                </div>
+                                Tip <span id="spnTipType">Width</span>
+                            </td>
+                            <td>
+                                <input type="text" id="_txtTipDiam" class="Num" value="0.78" style="width:60px;">
+                                <input type="range" id="rngTipDiam" min="0.1" max="1.5" step="0.01" value="0.78" oninput="rngTipDiam_change(this)" style="width:120px;">
+                            </td>
+                        </tr><tr>
+                            <td colspan="2">
+                                <div class="rblButtons">
+                                    <div style="width:60px;">
+                                        <input type="radio" name="rblTipType" id="rbFlatTip" checked="checked" onclick="SetTip('flat')">
+                                        <label for="rbFlatTip">Flat Tip</label>
+                                    </div>
+                                    <div style="width:70px;margin-left:12px;">
+                                        <input type="radio" name="rblTipType" id="rbBallTip" onclick="SetTip('ball')">
+                                        <label for="rbBallTip" style="margin-left:2px;">Ball Tip</label>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr><tr>
+                            <td style="text-align:center;">
+                                Wood Thickness
+                            </td>
+                            <td>
+                                <input type="text" id="_txtWoodThick2" class="Num" value="16" style="width:60px;">
+                                <input type="range" id="rngWoodThick2" min="4" max="30" step="0.1" value="16" oninput="rngWoodThick2_change(this)" style="width:120px;">
+                            </td>
+                        </tr><tr>
+                            <td style="text-align:center;">
+                                Min Thickness
+                            </td>
+                            <td>
+                                <input type="text" id="_txtMinThick2" class="Num" value="2" style="width:60px;">
+                                <input type="range" id="rngMinThick2" min="0.5" max="10" step="0.1" value="2" oninput="rngMinThick2_change(this)" style="width:120px;">
+                            </td>
+                        </tr><tr>
+                            <td colspan="2" style="text-align:center;">
+                                <label for="cbBitClr">Colour</label>
+                                <input type="checkbox" id="cbBitClr" checked="checked" onclick="CalculateBit()">
+                                <label for="cbDimsBit" style="margin-left:20px;">Dimensions</label> <input type="checkbox" id="cbDimsBit" checked="checked" onclick="CalculateBit()">
+                                <input type="button" onclick="CalculateBit()" value="Calculate" class="Btn" style="margin-left:22px;">
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="text-align:center;vertical-align:top;">
+                    <span id="spnScale">
+                        Scale <input type="range" id="rngScale2" min="20" max="90" value="50" style="width:160px;" oninput="CallAnimBit()">
+                    </span>
+                    <label for="cbFullScale" style="margin-left:12px;">Full Scale</label> <input type="checkbox" id="cbFullScale" onclick="cbFullScale_click(this)">
+                    <br><br>
+                    <canvas id="cnvsBit" width="200" height="200" class="CnvsCenter"></canvas>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <table style="width:100%;">
+            <tr>
+                
+                <td style="width:410px;text-align:center;vertical-align:top;">
+                    <span class="Hdr1">Calculate Curve Radius and Sweep Angle<br>From Width and Height</span>
+                    <br><br>
+                    <table class="InTable" style="margin:auto;">
+                        <tr>
+                            <td style="text-align:center;">
+                                Curve Width
+                            </td>
+                            <td>
+                                <input type="text" id="txtWidth" value="424" class="Num" style="width:60px;">
+                                <input type="range" id="rngWidth" min="100" max="1000" step="1" value="424" oninput="rngWidth_change(this)" style="width:120px;">
+                            </td>
+                        </tr><tr>
+                            <td style="text-align:center;">
+                                Curve Height
+                            </td>
+                            <td>
+                                <input type="text" id="txtHeight" value="88" class="Num" style="width:60px;">
+                                <input type="range" id="rngHeight" min="20" max="500" step="1" value="88" oninput="rngHeight_change(this)" style="width:120px;">
+                            </td>
+                        </tr><tr>
+                            <td style="text-align:center;">
+                                <label for="cbLockAngle">Lock Angle</label>
+                            </td>
+                            <td>
+                                <input type="checkbox" id="cbLockAngle" onclick="LockAngle(this)">
+                                <input type="button" value="Calculate" onclick="CalcSweepRadius()" class="Btn" style="margin-left:30px;">
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="text-align:center;vertical-align:top;">
+                    <span id="spnSweepRadRes">Sweep</span>
+                    <br>
+                    <canvas id="cnvsSweepRad" width="400" height="300" class="CnvsCenter"></canvas>         
+                </td>
+            </tr>
+        </table>
+        
+        <div id="divFooter" style="width:1024px;text-align:center;">
+            <br><br>
+            Tap to Transfer this page to Phone via <input type="button" class="Btn" style="margin-left:10px;" value="QR Code" onclick="GetUrlQR()">
+            <img src="/images/QR.jpg" style="width:26px;height:26px;vertical-align:middle;cursor:pointer;" alt="QR Code" onclick="GetUrlQR()">
+            <br>
+            <div id="divQRLink" style="width:200px;margin:auto;" onclick="GetUrlQR()"></div>
+            <br>
+            
+            <div id="f1_pnlMetric" style="width:100%;text-align:center;">
+	
+                <img src="/images/alert3.png" style="width:22px;height:23px;vertical-align:middle;" alt="All Metric inputs in millimetres">
+                <span class="AlrtSml">All Metric Inputs in Millimetres</span> <span style="font-size:12px;">(unless otherwise noted)</span>
+            
+</div>
+            <br>
+            
+            <br>
+            <div id="divSVG" style="width:100%;display:none;text-align:center;">
+                <br><hr>
+                <h3 style="display:inline-block;margin-right:30px;">Right Click image and Choose <span style="background:#f1f1f1;padding:3px;border:solid silver 1px;border-radius:3px;">Save image as...</span> to download Full Scale SVG</h3>
+                <input type="button" value="Clear All" onclick="_ClearAllSVG()" class="Btn">
+                <span onclick="window.scrollTo(0,0)" class="JsAction" style="margin-left:32px;">To Top &uarr;</span>
+                <br><br>
+                <div id="divSVG_All"></div>
+                <br><hr><br>
+            </div>
+            <div class="Row" style="text-align:left;">
+                <div class="Col1">
+                    Built something using our calculators? &nbsp;
+                    Please <span onclick="window.open(atob('bWFpbHRvOmhlbHBAYmxvY2tsYXllci5jb20=')+'?Subject=My Project&amp;Body=Please tell us about your project and attach some photos')" class="JsAction" style="font-size:18px;">Send Photos!</span><br>and a description for our Examples list.
+                    <br><br>
+                    <input type="button" value="Diagrams to PDF" onclick="_PrintAllCanvas()" class="BtnSave" style="margin-right:16px;font-size:22px;">
+                    (diagrams on this page)
+                    <br><br>
+                    <a href="/printing-tips" style="font-size:22px;">How to Print Large Templates</a> over multiple pages.
+                </div>
+                <div class="Col2">   
+                    <img src="/images/alert3.png" style="width:22px;height:23px;vertical-align:middle;" alt="DON'T BREATH THE DUST">
+                    If you're cutting blocks, concrete, stone or <span class="Strng">ANYTHING</span> and there's <span class="Strng">DUST - DON'T TAKE THE RISK</span>
+                    <br>
+                    Don't cut it, or cut it wet so there's <span class="Strng">NO DUST</span> - <a href="https://en.wikipedia.org/wiki/Silicosis" target="_blank" rel="noopener" style="font-size:18px;">Silicosis Sucks</a>
+                    <br>
+                    And if you're cutting wet, wear a mask - there's dust in the spray mist too!
+                    <br><br>
+                    <input type="button" id="btnShare" value="Share this App" onclick="GoShare()" class="Btn" style="margin-left:20px;width:220px;font-size:18px;display:none;">
+                </div>
+            </div>
+            <div id="divMobile" style="width:1000px;font-size:22px;display:none;margin:auto;text-align:center;">
+                <br><br>
+                <span class="JsAction" style="font-size:40px;" onclick="Calculator()">Calculator</span>
+                <span style="margin-left:20px;margin-right:16px;">|</span>
+                <span class="JsAction" style="font-size:40px;" onclick="_SpiritLevel()">Spirit Level</span>
+                <span style="margin-left:16px;margin-right:16px;">|</span>
+                <span class="JsAction" style="font-size:40px;" onclick="location.replace('/bubble-level')">Bubble Level</span>
+                <br><br>
+            </div>
+            <div id="divSpiritLevel" style="width:420px;height:440px;overflow:hidden;display:none;margin:auto;"></div>
+            <div id="divCalculator" style="width:590px;height:780px;overflow:hidden;display:none;margin:auto;"></div>
+            <br>
+            <table style="width:400px;margin:auto;border-spacing:10px;border:solid silver 1px;border-radius:8px;">
+                <tr>
+                    <td style="width:300px;text-align:center;vertical-align:top;">
+                        <span style="font-weight:bold;">How should we spell it?</span>
+                    </td>
+                    <td style="text-align:center;">
+                        <div class="rblButtons">
+                            <div style="width:70px;">
+                                <input type="radio" name="rblSpell" id="__rbMetre">
+                                <label for="__rbMetre" style="font-size:19px;">Metre</label>
+                            </div>
+                            <div style="width:70px;margin-left:20px;">
+                                <input type="radio" name="rblSpell" id="__rbMeter">
+                                <label for="__rbMeter" style="font-size:19px;">Meter</label>
+                            </div>
+                        </div>
+                    </td>
+                </tr><tr>
+                    <td style="text-align:center;">
+                        <span id="_spnVoteRes" onclick="_GetVote()" class="JsAction">Results</span>
+                    </td>
+                    <td style="text-align:center;">
+                        <input type="button" id="btnVote" value="Vote" class="Btn" style="margin-right:20px;" onclick="Vote()">
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <div id="_divVoteRes" style="width:580px;text-align:left;margin:auto;display:none;">
+                <table style="width:580px;">
+                    <tr>
+                        <td style="text-align:center;">
+                            <span id="_spnMax" class="Hdr3"></span>
+                            <br>
+                            <span id="_spnMin" class="Hdr3"></span>
+                        </td>
+                        <td>
+                            <div id="_divMax" style="display:inline-block;width:0px;height:18px;background-color:red;vertical-align:middle;margin-left:12px;" class="ScaleBlue"></div>
+                            <br>
+                            <div id="_divMin" style="display:inline-block;width:0px;height:18px;background-color:red;vertical-align:middle;margin-left:12px;" class="ScaleBlue"></div>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                What do we think? - They're 2 different things:
+                <br>
+                A <span class="Strng">Meter</span> is a device to measure things - like a Volt Meter or a Parking Meter
+                <br>
+                A <span class="Strng">Metre</span> is about 3'-3~3/8"
+                <br>
+                Although diameter and perimeter as measurements - don't seem to fit very well
+                <br>
+                <span style="font-size:80%;">If the U.S. ever goes Metric, you'll be able to use a Meter to measure Meters - A Meter Meter
+                    <br>
+                    (And when we go <span style="text-decoration:line-through;">back to the moon</span> to Mars, let's go Metric, ay?)
+                </span>
+                <br><br>
+            </div>
+            <br>
+            <div class="Row">
+                <div class="Col1" style="font-size:17px;text-align:left;">
+                    Many of our calculators can be used for multiple purposes.<br> 
+                    If you find a use for a particular calculator in a field not directly related to the name or description of the calculator, 
+                    or have suggestions for new calculators or improvements to existing ones, Please <span class="JsAction" onclick="_Contact()">Let us Know!</span>          
+                </div>
+                <div class="Col2" style="font-size:18px;text-align:left;">
+                    <a href="/contact-us2?fromcalc=dir"><img src="/images/Light.gif" style="width: 16px; height: 16px; border: 0;" loading="lazy" alt="Ideas">Next Calculator ? LET US KNOW !</a>
+                    <br><br>
+                    And if you find the site useful, please <span class="JsAction" onclick="GoShare()">Tell a Friend!</span> 
+                </div>
+            </div>
+            <br>
+            <div class="InDiv" style="text-align:center;display:inline-block;vertical-align:middle;line-height:200%;padding:14px;">
+                <img src="/images/light.gif" style="width:16px;height:16px;vertical-align:middle;" alt="Blue Dragon Children's Foundation">
+                If you've benefited from this free service please consider supporting<br>
+                <span style="font-size:20px;font-weight:normal;margin-left:16px;"><a target="_blank" href="https://www.bluedragon.org/donate/?r=blocklayer" rel="noopener">Blue Dragon Children's Foundation</a></span>
+            </div>
+            <br>
+        </div>
+        <div id="divFooter2" style="width:100%;text-align:center;margin-bottom:140px;">
+            <br>
+            <div id="divMargins" class="Row" style="width:600px;margin:auto;">
+                
+                <div class="Col1">
+                    <div style="width:200px;display:block;vertical-align:top;text-align:center;margin:auto;margin-bottom:12px;" class="LeftFixedTop">
+                        <a href="/"><img src="/images/logo.ico" style="width:32px;height:32px;margin-top:4px;" alt="blocklayer.com logo"></a>
+                        <div class="Logo" style="font-size:22px;display:inline-block;vertical-align:top;" onclick="location.replace('/')">blocklayer<span style="font-size:60%;">.com</span></div>
+                        <br><br>
+                        <a href="/reviews/page-1" style="margin-left:10px;font-size:18px;">Reviews and Examples</a>
+                        <br><br>
+                        <div class="Tooltip help">&quest;
+                            <div class="Tooltiptext" style="width:180px;">Create PDF with all diagrams on this page for printing</div>
+                        </div>
+                        <input type="button" value="Diagrams to PDF" class="BtnSave" onclick="_PrintAllCanvas()" style="font-size:20px;margin:6px auto 20px;vertical-align:baseline;">
+                        <br><br>     
+                        <div class="BtnMargin" onclick="_Contact()" style="width:120px;margin:auto;margin-bottom:16px;">Contact Us</div>
+                        <br>
+                        <span class="BtnMargin" onclick="_ClearMargins()" style="margin-left:12px;" title="Remove side bar margins to fit large diagrams"> 
+                            <span style="font-size:20px;color:#f00;font-weight:bold;vertical-align:middle;">X </span>Remove This Margin</span>
+                        <br><br><br>
+                        <div style="width:200px;border:solid silver 1px;font-size:14px;border-radius:6px;background-color:#F3F3F3;margin:auto;margin-bottom:12px;">
+                            Built something using this site?
+                            <br>
+                            <span onclick="window.open(atob('bWFpbHRvOmhlbHBAYmxvY2tsYXllci5jb20=')+'?Subject=My Project&amp;Body=Please tell us about your project and attach some photos to display on our Examples page.')" class="JsAction" style="font-size:18px;">Please Send Photos!</span><br>and description.
+                        </div>
+                        <br>
+                        <button type="button" id="btnTellFiend" onclick="GoShare()" class="Btn" style="width:160px;font-size:16px;">Share This App! &rarr;</button>
+                        <br>
+                        <div id="_divSaved" class="InDiv" style="width:200px;display:none;margin-top:12px;text-align:center;">
+                            <div class="BtnGreen" style="width:180px;font-size:16px;color:#fff;margin:auto;margin-bottom:10px;">Saved Calculations</div>
+                            <input type="button" value="Clear All" class="BtnOffRed" onclick="_RemoveAllSaved()" style="font-size:12px;margin-right:2px;margin-bottom:10px;">
+                            <input type="button" id="_btnRemoveSaved" value="Remove Selected" onclick="_RemoveSaved()" class="BtnOffRed" style="font-size:12px;display:none;margin-bottom:10px;">
+                            <select id="__ddSavedCalcs" onchange="_GetSaved(this)" style="font-size:12px;">
+                                <option value="0">Select Saved Calculation</option>
+                            </select>
+                        </div>
+                        <br><br>
+                        <div id="divCalculatorBtn">
+                            <span style="font-size:50px;vertical-align:middle;">&#128425;</span> 
+                            <span class="BtnMargin" id="btnCalculator" onclick="ShowCalculator()" style="vertical-align:middle;">Calculator</span>
+                        </div>
+                        <div id="divCalculatorLeft" style="width:200px;"></div>
+                    </div>
+                </div>
+                <div class="Col2">
+                    
+                    <div id="divRightFixedTop" class="RightFixedTop" style="display:block;text-align:center;font-size:14px;margin:auto;">
+                        <div class="SearchBoxMarg">
+                            <input type="text" id="__txtSearchf" style="width:140px;height:22px;font-size:17px;" placeholder="Site Search" maxlength="60">
+                            <input type="button" class="BtnSmall" onclick="GoSearch('f')" style="font-size:16px;" value="Go" title="Search this site">
+                            <br><br>
+                        </div>
+                        <span class="BtnMargin" onclick="location.assign('/printing-tips')">Print Help</span>
+                        <span class="BtnMargin" onclick="location.assign('/help')" style="margin-left:20px;">Help</span>
+                        <br><br><br>
+                        <span class="BtnMargin" onclick="_CopyAllCanvas()">
+                            <span class="Tooltip help">&quest;
+                                <span class="Tooltiptext" style="width:200px;left:-80px;">Copy all diagrams on this page to bottom of page - Make multiple copies to Print or Compare Results</span>
+                            </span>
+                            Compare Diagrams
+                        </span>
+                        <br><br><br>
+                        <span class="BtnMargin" onclick="GoShare()">Share</span>
+                        <span class="BtnMargin" onclick="window.print()" style="margin-left:12px;" title="Hit 'Diagrams to PDF' for Full Scale Templates">Print this Page</span>
+                        <br><br><br>
+                        <span class="BtnMargin" onclick="_ClearMargins()" title="Remove side bar margins to fit large diagrams"> 
+                            <span style="font-size:20px;color:#f00;font-weight:bold;vertical-align:middle;">X </span>Remove This Margin</span>
+                        <br><br>
+                        <div style="width:200px;font-size:16px;text-align:center;cursor:pointer;margin-bottom:6px;margin-top:12px;border:solid silver 1px;border-radius:8px;" onclick="window.open('https://www.bluedragon.org/donate/?r=blocklayer','_blank','noopener')">
+                            Please help us support
+                            <br>
+                            <a target="_blank" href="https://www.bluedragon.org/donate/?r=blocklayer" rel="noopener" style="line-height:120%;">Blue Dragon<br>Children's Foundation</a>
+                            <br>
+                            <img src="/images/bluedragon-logo.jpg" style="width:140px;height:41px;" alt="Blue Dragon Childrens's Foundation">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span class="JsAction" style="font-size:20px;" onclick="_Contact()">Contact Us</span>
+            <br><br>
+            <img src="/images/logo-60x60.png" style="width:60px;height:60px;border-radius:10px;vertical-align:top;margin-right:10px;cursor:pointer;" onclick="location.replace('/')" loading="lazy" alt="blocklayer.com logo">
+            <div class="Logo" style="font-size:32px;display:inline-block;vertical-align:top;" onclick="location.replace('/')">blocklayer<span style="font-size:60%;">.com</span></div>
+            <br><br>
+            <div style="font-size:19px;font:18px Arial;line-height:160%;">
+                Online Calculators and Printable Full Scale Template Generators for<br><span style="font-style:italic;">Construction - DIY - Remodeling - Metalwork - Crafts - Automotive - Mechanical</span></div>
+            <br>
+            <span style="font-size:32px;">&#x26A0;</span>
+            <span style="font-size:17px;color:red;">All calculators on this site are geometric only.<br>
+                Check relevant local regulations for appropriate sizes, spacings and all engineering requirements.</span>
+            <br><br>
+            <a href="/disclaimer.html" target="_blank">Disclaimer</a> &nbsp;| &nbsp;<a href="/privacy.html" target="_blank">Privacy & Cookie Policy</a>
+            <br><br>
+            <span style="font-size:12px;">Copyright &copy; 1979 - 2025 Greg Tarrant - blocklayer.com</span> 
+        </div>
+        <div id="divCopyCanvas" style="width:100%;display:none;text-align:center;">
+            <hr>
+            Click individual diagrams to remove.
+            <input type="button" value="Clear All" onclick="_ClearAllCopyCanvas()" class="Btn">
+            <br><br>
+            Scale
+            <input type="range" id="__rngCopyCanvasScale" min="0.4" max="3.0" value="1.0" step="0.01" oninput="__rngCopyCanvasScale_Change(this)" style="width:300px;">
+            <br><br>
+            <div id="divCopyCanvasAll"></div>
+        </div>
+        <div id="adTest" class="ad ads adsbox ad-box doubleclick ad-placement ad-placeholder adbadge BannerAd ad-zone ad-space ad-unit textads banner-ads banner_ads adsbygoogle" style="position:fixed;bottom:0;left:0;width:100%;height:2px;display:block;"></div>
+        <input type="button" id="__btnBT" style="background:#fff;color:#fff;border:0px;" value="Calculate All" onclick="btnBT_click()">
+        <script>
+            window.addEventListener("load",()=>{
+            if(navigator.userAgent.toLowerCase().includes("googlebot")){var b=document.getElementsByTagName("canvas");if(0<b.length){for(var h=_isMobile?500:800,a=0;a<b.length;a++){var g=b[a],c=document.createElement("canvas");c.width=g.width;c.height=g.height;if(c.toDataURL()!==g.toDataURL()){c=g.width;var l=g.height;if(c>h){var d=c/l;c=h;l=c/d}d=document.createElement("span");d.innerHTML="<h3>"+document.title+" - "+g.innerHTML+"</h3>";$("divCopyCanvasAll").appendChild(d);
+            d=document.createElement("canvas");d.width=c+24;d.height=l+40+24;var f=d.getContext("2d");f.fillStyle="#fff";f.fillRect(0,0,d.width,d.height);f.drawImage(g,12,12,c,l);f.fillStyle="#000";f.font="12px Verdana";c=f.measureText("www.blocklayer.com").width;f.fillStyle="#00f";f.fillText("www.blocklayer.com",12,d.height-12-20);f.fillStyle="#000";f.fillText(" - "+g.innerHTML,12+c+4,d.height-12-20);f.fillText(document.title,12,d.height-12);c=document.createElement("img");c.src=d.toDataURL();c.title=g.innerHTML;
+            c.alt=g.innerHTML;c.style.margin="12px";$("divCopyCanvasAll").appendChild(c)}}$("divCopyCanvas").style.display="block"}} 
+            setTimeout(() =>  
+            {   
+                if (window.getComputedStyle($("adTest")).getPropertyValue("display") === "none" && !GetCookie("_gabr7"))   
+                {
+                    if (!GetCookie("_gadBlock"))
+                        SetCookie("_gadBlock", 0, 1);   
+                    else
+                    {
+                        var a = document.createElement("div");
+                        a.className = "divAB2";
+                        a.id = "_divAB";
+                        a.innerHTML = "<img src='/images/logo-120x120.png' style='border-radius:10px;'><br><br><span style='font:bold 30px Verdana'>Please allow ads on our site</span><br><br>Looks like you're using an ad blocker.<br><br>We rely on advertising to help fund this free service.<br>Please disable your ad blocker (browser extension) to enable this site.<br><br><div class='Btn' style='width:340px;margin:auto;font-size:24px;'>I have disabled Ad Blocker</div><br>";
+                        a.onclick = function () { this.style.display = 'none'; }
+                        var b = document.createElement("button");
+                        b.innerHTML = "Visit Blue Dragon Childrens Foundation to temporarily remove this message";
+                        b.onclick = ()=> { SetCookieMaxAge("_gabr7",0,3600);window.open('https://www.bluedragon.org/our-work/what-is-trafficking/ending-slavery/?ref=blocklayer','_blank','noopener'); }
+                        b.className = "BtnSmall";
+                        a.appendChild(b);
+                        document.body.appendChild(a);  
+                        setTimeout(function () { $("_divAB").style.opacity = "1.0"; _LockInputs(); }, 1000);
+                    }
+                }
+                $("adTest").remove();
+            }, 2000);
+            GetCookie("MetreVote")&&($("btnVote").disabled=!0,$("btnVote").value="Already Voted",$("__rbMeter").checked="Meter Vote"===GetCookie("MetreVote"),$("__rbMetre").checked="Metre Vote"===GetCookie("MetreVote"));IsMobile() && ($("btnShare").style.display = "inline-block");
+            GetCookie("isMobile")||SetCookie("isMobile",IsMobile()?1:0,365);location.href.match(/cache|archive/)&&_LockInputs();b=_GetStripURL();if(b.endsWith("eng"))$("hlVersion").href=b.substring(0,b.length-3),$("hlVersion").innerHTML="METRIC Version",$("hlVersion").style.visibility="visible",$("hlVersion").className="VersionMet";else for(h=document.getElementsByTagName("a"),a=0;a<h.length;a++)if(h[a].href===b+"eng"){$("hlVersion").href=b+"eng";$("hlVersion").innerHTML=
+            "INCH Version";$("hlVersion").style.visibility="visible";$("hlVersion").className="VersionImp";break}h=document.querySelectorAll("[type='range']");for(a=0;a<h.length;a++)h[a].title="Drag close, then use Keyboard Cursor Keys to Fine Tune. Right Click direct enter";a=encodeURIComponent(document.title);
+            setTimeout(() =>
+            {
+                if (GetCookie("BL_OW"))
+                {
+                    if (document.getElementsByClassName("fc-message-root")[0])
+                    {
+                        document.getElementsByClassName("fc-message-root")[0].remove();
+                        document.body.ariaHidden = false;
+                        document.body.style.overflow = "visible";
+                    }
+                }
+            }, 4000);
+            });
+            // Main
+            function ShowCalculator(){var a=document.createElement("iframe");a.style="width:140px;height:186px;border:0px;";a.src="/calculator.html";$("divCalculatorLeft").appendChild(a);$("divCalculatorBtn").style.display="none"}
+            function Vote(){if (!GetCookie("MetreVote")){if(!$("__rbMetre").checked&&!$("__rbMeter").checked) {alert("Please selcet 'Meter' or 'Metre'");return}var a=Math.ceil(10*Math.random()),b=Math.ceil(10*Math.random());if(parseInt(prompt("To Confirm You're Human,"+a+"+"+b+"="))!==a+b){alert("Wrong Answer");return}a=$("__rbMetre").checked?"Metre Vote":"Meter Vote";LogUser("Metre",a);SetCookie("MetreVote",a);setTimeout("_GetVote()",1E3)}$("btnVote").disabled=!0;$("btnVote").value="Thankyou"}
+            function _GetVote(){fetch("/GetVote.ashx").then(a=>a.text()).then(a=>{var b=a.split(",");a=parseInt(b[0]);var c=parseInt(b[1]);a>c?($("_spnMax").innerHTML="Meter "+CommaFormat(a),$("_spnMin").innerHTML="Metre "+CommaFormat(c)):($("_spnMax").innerHTML="Metre "+CommaFormat(c),$("_spnMin").innerHTML="Meter "+CommaFormat(a));b=Math.max(a,c);a=Math.min(a,c);$("_divMax").style.width="400px";$("_divMin").style.width=400/b*a+"px";$("_divVoteRes").style.display="block"})}
+            function _ClearMargins() { $("divMargins").style.display = "none"; }
+            function _LockInputs(){if(location.pathname.includes("contact-us"))return;for(var a=document.getElementsByTagName("input"),b=0;b<a.length;b++)a[b].disabled=!0;a=document.getElementsByTagName("select");for(b=0;b<a.length;b++)a[b].disabled=!0}
+            function __rngCopyCanvasScale_Change(a){for(var b=$("divCopyCanvas").getElementsByTagName("canvas"),c=0;c<b.length;c++){var d=b[c],e=d.width,f=d.height;d.style.width=a.value*e+"px";d.style.height=e/f*d.style.width+"px"}}function SetImperialPresc(a){a=parseInt(a.value);_isConDec=100===a;conMet=101===a;2<a&&!_isConDec&&!conMet&&(_den=a)}top!==self&&(top.location.href=self.location.href);
+            function _ToggleMenu(){if($("divMenuTop")){var a=$("divMenuTop");a.style.display="none"===getComputedStyle(a).display?"block":"none"}else window.location.href="/"}function _PermanentMenu(a){a.checked?(SetCookie("PermanentMenu",1,365),_ShowMenu(1)):(SetCookie("PermanentMenu",-1,-1),_ShowMenu(-1))}-1<document.cookie.indexOf("PermanentMenu")&&document.getElementById("divMenuTop")&&(_ShowMenu(1),document.getElementById("__cbPermanentMenu").checked=!0);
+            function _ShowMenu(a){document.getElementById("divMenuTop")&&(document.getElementById("divMenuTop").style.display=1===a?"block":"none")}document.body.setAttribute("tabIndex","0");
+            function _SVG(a){var b=a.indexOf(">")+1;a=a.slice(0,b)+"<title>Created with blocklayer.com</title>"+a.slice(b);b=document.createElement("img");b.src="data:image/svg+xml;utf8,"+encodeURIComponent(a);b.className="SVG_Save";b.title="Right Click and choose 'Save image as...' to save Full Scale SVG";$("divSVG_All").appendChild(b);$("divSVG").style.display="block";$("divSVG").scrollIntoView()}function _ClearAllSVG(){$("divSVG_All").innerHTML="";$("divSVG").style.display="none";window.scrollTo(0,0)}
+            function _Contact(){window.location.href="/contact-us2?fromcalc="+document.title};
+            // _SpeakList1
+            var _aSpeakList,_speakListTimer=null,_utterList,_speakListIndex=0,_btnSpeakList,_speechDelay=5E3,_isSpeakList=!1,_isMac=/iPad|iPhone|iPod|Mac/i.test(navigator.userAgent),_canRecognise=("webkitSpeechRecognition"in window||"SpeechRecognition"in window)&&!_isMac,_canSleep=!0;let wakeLock=null;
+            function _ToggleSpeakList(a,c){IsMobile()&&_canSleep&&((async()=>{try{wakeLock=await navigator.wakeLock.request("screen"),wakeLock.addEventListener("release",b=>{_canSleep=!0})}catch(b){}})(),_canSleep=!1);(_isSpeakList=!_isSpeakList)?(_aSpeakList=$(c).innerHTML.replace(/<br>/g,",").replace(/(<([^>]+)>|\s|&nbsp;)/ig,"").replace(/[\s]?to[\s]?/g,",").replace(/-/g,"- ").replace(/_/g," ").split(","),_utterList||=new SpeechSynthesisUtterance,(c=prompt("Speech Interval in Seconds",3))&&!isNaN(c)?(_speechDelay=
+            parseInt(1E3*c),_speakListIndex=0,_btnSpeakList=a,_utterList.onend=()=>{_speakListTimer=setTimeout("_SpeakListLoop()",_speechDelay)},_utterList.text="Ready",speechSynthesis.speak(_utterList),a.value="Speech Off",a.className="BtnSmallRed"):_isSpeakList=!1):(_utterList.onend=null,clearTimeout(_speakListTimer),_btnSpeakList.value="Speak",_btnSpeakList.className="BtnSmall",_isSpeakList=!1,IsMobile&&wakeLock&&(wakeLock.release(),wakeLock=null),a.value="Speak",a.className="BtnSmall")}
+            function _SpeakListLoop(){if(_isSpeakList&&_speakListIndex<_aSpeakList.length){var a=_aSpeakList[_speakListIndex],c="Mark.!.. ";if(isNaN(a))c+=GetSpokenImp(a);else{if(3<a.length){a=CommaFormat(a);var b=a.split(",");3>b.length&&(a="1"===b[0]?b[0]+" Meter ":b[0]+" Meters ",b=parseInt(b[1]),0<b&&(100>b&&(a+=" and "),a+=b))}c+=a}_speakListIndex===_aSpeakList.length-1&&(c="Last, "+c,_utterList.onend=()=>{_utterList.onend=null;clearTimeout(_speakListTimer);_btnSpeakList.value="Speak";_btnSpeakList.className=
+            "BtnSmall";_isSpeakList=!1;IsMobile&&wakeLock&&(wakeLock.release(),wakeLock=null)});_utterList.text=c;speechSynthesis.speak(_utterList);_speakListIndex++}};
+            if (document.getElementById("tblFab")) document.getElementById("divMenuTop").style.display="block";
+            function GoSearch(t) { var q = $("__txtSearch" + t).value; if (q.length > 2) { location.href = "/searchresults?q=" + q; }}
+            document.addEventListener("keydown", function (evt) { if (evt.key === "Enter" && document.activeElement === $("__txtSearchl")) GoSearch('l'); });
+            document.addEventListener("keydown", function (evt) { if (evt.key === "Enter" && document.activeElement === $("__txtSearchf")) GoSearch('f'); });
+        </script>
+    </div>
+    <img id="imgWood" src="/images/woodHoriz.jpg" alt="" style="display:none;">
+</body>
+</html>
