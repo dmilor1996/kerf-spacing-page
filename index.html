@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kerf Spacing Calculator - Simplified</title>
+  <!-- Use the original Blocklayer CSS for basic styling -->
+  <link rel="stylesheet" href="assets/www.blocklayer.com/css/bl4.css">
+  <style>
+    body { font-family: Verdana, Arial, sans-serif; margin: 20px; }
+    .calculator {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+    .calc-form {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 6px;
+      width: 320px;
+      background-color: #f9f9f9;
+    }
+    .calc-form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    .calc-form input[type="number"] {
+      width: 100%;
+      padding: 6px;
+      box-sizing: border-box;
+      margin-top: 4px;
+    }
+    .calc-form input[type="checkbox"] {
+      margin-right: 6px;
+    }
+    .calc-form button {
+      margin-top: 12px;
+      padding: 8px 14px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      background-color: #0078d4;
+      color: white;
+      cursor: pointer;
+    }
+    .calc-form button:hover {
+      background-color: #005fb8;
+    }
+    .results {
+      flex: 1;
+      min-width: 280px;
+      max-width: 450px;
+    }
+    .results h3 {
+      margin-top: 0;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Kerf Spacing Calculator for Bending Wood</h1>
+  <div class="calculator">
+    <div class="calc-form">
+      <label>
+        Curve Radius (outside) (mm)
+        <input type="number" id="radius" step="0.1" min="1" value="300">
+      </label>
+      <label>
+        Curve Sweep Angle (degrees)
+        <input type="number" id="angle" step="0.1" min="1" max="360" value="90">
+      </label>
+      <label>
+        Kerf Width (blade thickness) (mm)
+        <input type="number" id="kerf" step="0.01" min="0.1" value="2">
+      </label>
+      <label>
+        Wood Thickness (mm)
+        <input type="number" id="thickness" step="0.1" min="1" value="20">
+      </label>
+      <label>
+        Minimum Thickness (mm)
+        <input type="number" id="minThick" step="0.1" min="0.1" value="3">
+      </label>
+      <label>
+        <input type="checkbox" id="curveFromEnds">
+        Cuts start from board ends
+      </label>
+      <button id="calculate">Calculate</button>
+      <p id="error" class="error"></p>
+    </div>
+    <div class="results" id="results">
+      <h3>Results</h3>
+      <p>Enter values and click <strong>Calculate</strong> to see the kerf spacing results.</p>
+    </div>
+  </div>
+  <script>
+    function calculate() {
+      const radius = parseFloat(document.getElementById('radius').value);
+      const angle = parseFloat(document.getElementById('angle').value);
+      const kerf = parseFloat(document.getElementById('kerf').value);
+      const thickness = parseFloat(document.getElementById('thickness').value);
+      const minThick = parseFloat(document.getElementById('minThick').value);
+      const curveFromEnds = document.getElementById('curveFromEnds').checked;
+      const errorElem = document.getElementById('error');
+      const resultsElem = document.getElementById('results');
+      errorElem.textContent = '';
+      resultsElem.innerHTML = '<h3>Results</h3>';
+      // Validate inputs
+      if (isNaN(radius) || radius <= 0) { errorElem.textContent = 'Please enter a valid curve radius.'; return; }
+      if (isNaN(angle) || angle <= 0 || angle > 360) { errorElem.textContent = 'Please enter a sweep angle between 0 and 360 degrees.'; return; }
+      if (isNaN(kerf) || kerf <= 0) { errorElem.textContent = 'Please enter a valid kerf width.'; return; }
+      if (isNaN(thickness) || thickness <= 0) { errorElem.textContent = 'Please enter a valid wood thickness.'; return; }
+      if (isNaN(minThick) || minThick <= 0 || minThick >= thickness/2) { errorElem.textContent = 'Minimum thickness must be positive and less than half the wood thickness.'; return; }
+      // Convert angle to radians for calculations
+      const C = Math.PI * radius * angle / 180; // arc length of outside curve
+      // Number of cuts (ceil of ratio of total compression needed over kerf width)
+      const cuts = Math.ceil((Math.PI * angle * thickness / 180) / kerf);
+      let D, r;
+      if (curveFromEnds) {
+        const A = cuts + 1;
+        D = (C + kerf) / A;
+        r = D - kerf;
+      } else {
+        const A = cuts - 1;
+        D = C / A;
+        r = D - kerf;
+      }
+      // Show results
+      const resultStr = `${cuts} cuts of ${kerf.toFixed(2)} mm @ ${D.toFixed(1)} mm centres with ${r.toFixed(1)} mm wood width between cuts.`;
+      resultsElem.innerHTML += `<p><strong>${resultStr}</strong></p>`;
+    }
+    document.getElementById('calculate').addEventListener('click', calculate);
+  </script>
+</body>
+</html>
