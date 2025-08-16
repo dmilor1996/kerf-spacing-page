@@ -88,7 +88,7 @@
         <input type="checkbox" id="curveFromEnds">
         Cuts start from board ends
       </label>
-      <button id="calculate">Calculate</button>
+      <button id="calculate" type="button">Calculate</button>
       <p id="error" class="error"></p>
     </div>
     <div class="results" id="results">
@@ -132,7 +132,11 @@
       const resultStr = `${cuts} cuts of ${kerf.toFixed(2)} mm @ ${D.toFixed(1)} mm centres with ${r.toFixed(1)} mm wood width between cuts.`;
       resultsElem.innerHTML += `<p><strong>${resultStr}</strong></p>`;
     }
-    document.getElementById('calculate').addEventListener('click', calculate);
+// Ensure clicking the button doesn't submit a form or reload the page
+document.getElementById('calculate').addEventListener('click', function(e) {
+      e.preventDefault();
+      calculate();
+    });
   </script>
 </body>
 </html>
