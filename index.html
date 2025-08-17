@@ -215,6 +215,48 @@ document.getElementById('calculate').addEventListener('click', function(e) {
         } else {
           dist = i * D;
         }
+
+          // --------------------------------------------------------------------
+          // Draw dimension annotation across the top of the straight board
+          // The top dimension line shows the total arc length (C) of the outer
+          // curve.  Two arrowheads at either end indicate the extent of the
+          // dimension.  Labels for "Start Curve" and "End Curve" help orient
+          // the viewer.  This annotation sits above the board, separated by
+          // 20 pixels for clarity.
+          const arrowY = boardTopPx - 20;
+          // Main horizontal line
+          ctx.beginPath();
+          ctx.moveTo(marginX, arrowY);
+          ctx.lineTo(marginX + boardWidthPx, arrowY);
+          ctx.stroke();
+          // Arrowhead size in pixels
+          const arrowSize = 6;
+          // Left arrowhead
+          ctx.beginPath();
+          ctx.moveTo(marginX, arrowY);
+          ctx.lineTo(marginX + arrowSize, arrowY - 4);
+          ctx.lineTo(marginX + arrowSize, arrowY + 4);
+          ctx.closePath();
+          ctx.fill();
+          // Right arrowhead
+          ctx.beginPath();
+          ctx.moveTo(marginX + boardWidthPx, arrowY);
+          ctx.lineTo(marginX + boardWidthPx - arrowSize, arrowY - 4);
+          ctx.lineTo(marginX + boardWidthPx - arrowSize, arrowY + 4);
+          ctx.closePath();
+          ctx.fill();
+          // Reset font and colour for text annotations
+          ctx.fillStyle = '#000000';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+          ctx.font = '12px Arial';
+          // Label for total arc length (rounded)
+          ctx.fillText(`${Math.round(C)} mm`, marginX + boardWidthPx / 2, arrowY - 2);
+          // Labels for start and end
+          ctx.textAlign = 'left';
+          ctx.fillText('Start Curve', marginX, arrowY - 2);
+          ctx.textAlign = 'right';
+          ctx.fillText('End Curve', marginX + boardWidthPx, arrowY - 2);
         if (dist > C) continue;
         const xCenterPx = marginX + dist * scale;
         const kerfPx = kerf * scale;
@@ -312,7 +354,8 @@ document.getElementById('calculate').addEventListener('click', function(e) {
       // Fill and stroke the board segment.  Use a very light grey fill and a
       // solid black outline so the board is clearly distinguishable from the
       // white canvas.  A slightly thicker outline improves visibility.
-      ctx.fillStyle = '#f7f7f7';
+           // Lighten the board fill to pure white so wedge shading stands out
+           ctx.fillStyle = '#ffffff';
       ctx.strokeStyle = '#000000';
       ctx.lineWidth = 1.5;
       ctx.fill();
@@ -323,12 +366,14 @@ document.getElementById('calculate').addEventListener('click', function(e) {
       // For each cut, draw wedge and radial line
            // Use a darker grey for the kerf wedges to contrast with the light
            // board segment.  Set a black stroke for maximum contrast.
-           ctx.fillStyle = '#bbbbbb';
+           // Set the default stroke style for subsequent drawing on the curved
+           // diagram.  Kerf shading is not filled on this view; instead,
+           // kerf boundaries are delineated with radial lines drawn later.
            ctx.strokeStyle = '#000000';
       ctx.lineWidth = 1;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.font = '12px Arial';
+           ctx.font = '14px Arial';
       for (let i = 0; i < cuts; i++) {
         let dist;
         if (curveFromEnds) {
@@ -341,10 +386,29 @@ document.getElementById('calculate').addEventListener('click', function(e) {
         const frac = dist / C;
         // Compute central angle for the cut on the outer arc
         const theta = startAngle - frac * totalAngleRad;
-        // Wedge width at inner radius (kerf mm)
-        const angleDelta = kerf / innerR;
-        const leftEdge = theta + angleDelta / 2;
-        const rightEdge = theta - angleDelta / 2;
+             // Wedge width at inner radius (kerf mm).  For display purposes,
+             // exaggerate the wedge width so the kerf areas are visible relative
+             // to the board thickness.  On the actual board the kerf width is
+             // tiny compared to the board thickness (e.g. 2 mm kerf vs 20 mm
+             // thickness).  To make the wedges legible, scale the kerf width by
+             // a factor based on the board thickness.  A factor of roughly
+             // (thickness/kerf)*0.33 yields wedges around one‑third of the board
+             // thickness for typical values.  Cap the factor at 4 to avoid
+             // excessive overlap when there are many cuts.
+             const baseAngleDelta = kerf / innerR;
+             // Compute the mean angular spacing between cuts along the outer arc.
+             // This represents the maximum angular width available for each
+             // kerf.  To avoid wedges overlapping, limit the wedge width to
+             // half of this spacing.  Also compute a thickness-based factor to
+             // emphasise kerf width relative to the board thickness.  Use the
+             // smaller of the spacing limit, thickness factor and a hard cap.
+             const anglePerCut = totalAngleRad / cuts;
+             const maxFactorFromSpacing = (anglePerCut / baseAngleDelta) * 0.5;
+             const factorFromThickness = (thickness / kerf) * 2.0;
+             const wedgeFactor = Math.min(maxFactorFromSpacing, factorFromThickness, 8);
+             const wedgeAngle = baseAngleDelta * wedgeFactor;
+             const leftEdge = theta + wedgeAngle / 2;
+             const rightEdge = theta - wedgeAngle / 2;
         // Apex at inner radius (centre of kerf)
         const apexX = centerX + innerR * scale * Math.cos(theta);
         const apexY = centerY + innerR * scale * Math.sin(theta);
@@ -353,29 +417,35 @@ document.getElementById('calculate').addEventListener('click', function(e) {
         const baseRightY = centerY + outerR * scale * Math.sin(rightEdge);
         const baseLeftX = centerX + outerR * scale * Math.cos(leftEdge);
         const baseLeftY = centerY + outerR * scale * Math.sin(leftEdge);
-        // Draw wedge shape
-        ctx.beginPath();
-        ctx.moveTo(apexX, apexY);
-        ctx.lineTo(baseRightX, baseRightY);
-        ctx.lineTo(baseLeftX, baseLeftY);
-        ctx.closePath();
-        ctx.fill();
-        ctx.stroke();
-        // Draw central radial line
+        // Draw radial lines delineating the kerf width on the curved board.
+        // Each kerf is bounded by two radial lines (left and right edges).
+        // Use a darker grey for the kerf edges and a black line for the
+        // centre of the cut to make them stand out against the board.
         const outX = centerX + outerR * scale * Math.cos(theta);
         const outY = centerY + outerR * scale * Math.sin(theta);
+        // Left kerf edge
+        ctx.strokeStyle = '#555555';
+        ctx.beginPath();
+        ctx.moveTo(baseLeftX, baseLeftY);
+        ctx.lineTo(apexX, apexY);
+        ctx.stroke();
+        // Right kerf edge
+        ctx.beginPath();
+        ctx.moveTo(baseRightX, baseRightY);
+        ctx.lineTo(apexX, apexY);
+        ctx.stroke();
+        // Central cut line
+        ctx.strokeStyle = '#000000';
         ctx.beginPath();
         ctx.moveTo(outX, outY);
         ctx.lineTo(apexX, apexY);
         ctx.stroke();
         // Draw cut number on inner arc slightly inward
-        const labelRadius = (innerR + outerR) / 2; // place halfway inside board
+        const labelRadius = (innerR + outerR) / 2;
         const labelX = centerX + labelRadius * scale * Math.cos(theta);
         const labelY = centerY + labelRadius * scale * Math.sin(theta);
-             ctx.fillStyle = '#000';
-             ctx.fillText((i + 1).toString(), labelX, labelY);
-             // Reset fill colour for wedges after drawing the label
-             ctx.fillStyle = '#bbbbbb';
+        ctx.fillStyle = '#000000';
+        ctx.fillText((i + 1).toString(), labelX, labelY);
       }
     }
 
