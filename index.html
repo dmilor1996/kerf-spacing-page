@@ -340,12 +340,21 @@ document.getElementById('calculate').addEventListener('click', function(e) {
         const dist = positions[i];
         if (dist > arcLength) continue;
         const frac = dist / arcLength;
-        // Central angle for this cut on the outer arc (reverse direction)
+        // Central angle for this cut on the outer arc (reverse direction).
         const theta = startAngle - frac * totalAngleRad;
-        // Angular width of the kerf at the outer arc.  Convert kerf
-        // length to radians based on the total sweep and arc length.
+        // Base kerf angle (in radians) corresponding to the physical kerf width.
         const kerfAngle = (kerf / arcLength) * totalAngleRad;
-        const halfKerf = kerfAngle / 2;
+        // Compute the mean angular spacing between cuts.  This is used
+        // along with the kerf angle and thickness ratio to scale the
+        // displayed wedge.  Without scaling, the kerf wedge would be
+        // extremely narrow and almost invisible.  See original Blocklayer
+        // implementation for similar logic.
+        const anglePerCut = totalAngleRad / positions.length;
+        const maxFactorFromSpacing = (anglePerCut / kerfAngle) * 0.5;
+        const factorFromThickness = (thickness / kerf) * 2.0;
+        const wedgeFactor = Math.min(maxFactorFromSpacing, factorFromThickness, 8);
+        const wedgeAngle = kerfAngle * wedgeFactor;
+        const halfKerf = wedgeAngle / 2;
         const leftEdge = theta + halfKerf;
         const rightEdge = theta - halfKerf;
         // Compute key points
