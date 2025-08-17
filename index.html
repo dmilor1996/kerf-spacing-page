@@ -227,10 +227,16 @@ document.getElementById('calculate').addEventListener('click', function(e) {
         ctx.moveTo(xCenterPx, boardTopPx);
         ctx.lineTo(xCenterPx, boardBottomPx);
         ctx.stroke();
-        // Label cuts (1-based)
+        // Label each cut with the distance along the board where the cut
+        // occurs.  Use millimetres rounded to the nearest whole number to
+        // provide more informative spacing values instead of just the cut
+        // index.  The distance is measured along the outside arc.  When
+        // curveFromEnds is true, the first cut is offset by half of the
+        // centre spacing.
         const labelY = boardBottomPx + 8;
-        ctx.fillStyle = '#000';
-        ctx.fillText((i + 1).toString(), xCenterPx, labelY);
+        ctx.fillStyle = '#000000';
+        const distLabel = Math.round(dist).toString();
+        ctx.fillText(distLabel, xCenterPx, labelY);
       }
       // Optionally draw border for numbering baseline
     }
@@ -274,7 +280,15 @@ document.getElementById('calculate').addEventListener('click', function(e) {
            // horizontal span must fit within widthPx and the full outer radius must
            // fit within heightPx. Use the smaller of the two to maintain aspect ratio.
            const widthScale = widthPx / spanMm;
-           const heightScale = heightPx / outerR;
+           // To ensure the entire board fits vertically within the canvas,
+           // compute the height scaling based on the total vertical extent of
+           // the curved board.  The board extends from the top of the
+           // outer arc down to the bottom of the inner arc (i.e. the
+           // outer radius plus the board thickness).  The vertical extent
+           // equals (2 * outerR - innerR) mm.  This ensures the wedge
+           // shapes are fully visible.
+           const totalHeightMm = 2 * outerR - innerR;
+           const heightScale = heightPx / totalHeightMm;
            const scale = Math.min(widthScale, heightScale);
            const centerX = canvas.width / 2;
            // Position the centre so the top of the outer arc touches marginY.
@@ -307,9 +321,9 @@ document.getElementById('calculate').addEventListener('click', function(e) {
       // Arc length C for positioning
       const C = Math.PI * radius * angle / 180;
       // For each cut, draw wedge and radial line
-           // Use a mid‑tone grey for the kerf wedges to contrast with the board
-           // segment.  Set a black stroke for maximum contrast.
-           ctx.fillStyle = '#dddddd';
+           // Use a darker grey for the kerf wedges to contrast with the light
+           // board segment.  Set a black stroke for maximum contrast.
+           ctx.fillStyle = '#bbbbbb';
            ctx.strokeStyle = '#000000';
       ctx.lineWidth = 1;
       ctx.textAlign = 'center';
@@ -361,7 +375,7 @@ document.getElementById('calculate').addEventListener('click', function(e) {
              ctx.fillStyle = '#000';
              ctx.fillText((i + 1).toString(), labelX, labelY);
              // Reset fill colour for wedges after drawing the label
-             ctx.fillStyle = '#dddddd';
+             ctx.fillStyle = '#bbbbbb';
       }
     }
 
