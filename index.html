@@ -333,7 +333,11 @@ document.getElementById('calculate').addEventListener('click', function(e) {
       ctx.lineWidth = 1.5;
       ctx.fill();
       ctx.stroke();
-      // For each cut position, draw the kerf wedge and radial lines
+      // Precompute a constant half‑wedge angle based on the mean spacing between
+      // cuts.  We use 40% of the spacing to ensure the wedges are large
+      // enough to be visible.  This factor can be tuned for aesthetics.
+      const anglePerCut = totalAngleRad / positions.length;
+      const halfWedgeAngle = anglePerCut * 0.4;
       ctx.font = '14px Arial';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -341,48 +345,42 @@ document.getElementById('calculate').addEventListener('click', function(e) {
         const dist = positions[i];
         if (dist > arcLength) continue;
         const frac = dist / arcLength;
-        // Central angle for this cut on the outer arc (reverse direction).
+        // Central angle for this cut (reverse direction: startAngle -> endAngle).
         const theta = startAngle - frac * totalAngleRad;
-        // Compute the mean angular spacing between cuts and derive a
-        // visually meaningful wedge width.  We display each wedge with
-        // half the angular spacing between cut centres so the wedges are
-        // clearly visible.  This is not physically accurate but improves
-        // diagram clarity.
-        const anglePerCut = totalAngleRad / positions.length;
-        const wedgeAngle = anglePerCut * 0.5;
-        const halfKerf = wedgeAngle / 2;
-        const leftEdge = theta + halfKerf;
-        const rightEdge = theta - halfKerf;
-        // Compute key points
+        // Determine the left and right edges of the wedge around the centre.
+        const leftEdge = theta - halfWedgeAngle;
+        const rightEdge = theta + halfWedgeAngle;
+        // Coordinates of the apex at the inner radius
         const apexX = centerX + innerR * scale * Math.cos(theta);
         const apexY = centerY + innerR * scale * Math.sin(theta);
+        // Coordinates of the base of the wedge on the outer radius
         const baseLeftX = centerX + outerR * scale * Math.cos(leftEdge);
         const baseLeftY = centerY + outerR * scale * Math.sin(leftEdge);
         const baseRightX = centerX + outerR * scale * Math.cos(rightEdge);
         const baseRightY = centerY + outerR * scale * Math.sin(rightEdge);
         // Shade the kerf wedge with a mid‑tone grey so it stands out
-        ctx.fillStyle = '#e6e6e6';
+        ctx.fillStyle = '#dddddd';
         ctx.beginPath();
-        ctx.moveTo(baseRightX, baseRightY);
+        ctx.moveTo(apexX, apexY);
         ctx.lineTo(baseLeftX, baseLeftY);
-        ctx.lineTo(apexX, apexY);
+        ctx.lineTo(baseRightX, baseRightY);
         ctx.closePath();
         ctx.fill();
-        // Draw the radial lines delimiting the kerf
-        ctx.strokeStyle = '#555555';
+        // Draw the radial boundary lines of the wedge
+        ctx.strokeStyle = '#888888';
         ctx.beginPath();
-        ctx.moveTo(baseLeftX, baseLeftY);
-        ctx.lineTo(apexX, apexY);
-        ctx.moveTo(baseRightX, baseRightY);
-        ctx.lineTo(apexX, apexY);
+        ctx.moveTo(apexX, apexY);
+        ctx.lineTo(baseLeftX, baseLeftY);
+        ctx.moveTo(apexX, apexY);
+        ctx.lineTo(baseRightX, baseRightY);
         ctx.stroke();
         // Draw the central cut line in solid black
         const outerX = centerX + outerR * scale * Math.cos(theta);
         const outerY = centerY + outerR * scale * Math.sin(theta);
         ctx.strokeStyle = '#000000';
         ctx.beginPath();
-        ctx.moveTo(outerX, outerY);
-        ctx.lineTo(apexX, apexY);
+        ctx.moveTo(apexX, apexY);
+        ctx.lineTo(outerX, outerY);
         ctx.stroke();
         // Label each cut number along the inner arc between the inner and outer radii
         const labelRadius = (innerR + outerR) / 2;
