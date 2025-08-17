@@ -181,10 +181,12 @@ document.getElementById('calculate').addEventListener('click', function(e) {
       // Scale mm to pixels along board length
       const scale = boardWidthPx / C;
 
-      // Draw the board background
-      ctx.fillStyle = '#f7f7f7';
-      ctx.strokeStyle = '#444';
-      ctx.lineWidth = 1;
+      // Draw the board background.  Use a white fill and a crisp black outline
+      // so the board stands out clearly.  A slightly thicker outline helps
+      // differentiate the board from the kerf shading.
+      ctx.fillStyle = '#ffffff';
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 1.5;
       ctx.fillRect(marginX, boardTopPx, boardWidthPx, boardHeightPx);
       ctx.strokeRect(marginX, boardTopPx, boardWidthPx, boardHeightPx);
 
@@ -192,13 +194,17 @@ document.getElementById('calculate').addEventListener('click', function(e) {
       const cutDepthMm = thickness - minThick;
       const cutDepthRatio = cutDepthMm / thickness;
       const cutDepthPx = boardHeightPx * cutDepthRatio;
-      // Shade the region that is removed by kerfs
-      ctx.fillStyle = '#e0e0e0';
+      // Shade the region that is removed by kerfs (kerf depth).  Use a
+      // mid‑tone grey so it contrasts clearly against the white board.
+      ctx.fillStyle = '#dddddd';
       ctx.fillRect(marginX, boardTopPx, boardWidthPx, cutDepthPx);
 
       // Draw each cut as a line and shade the kerf
-      ctx.strokeStyle = '#000';
-      ctx.fillStyle = '#c8c8c8';
+      // Draw each kerf as a shaded rectangle with a dark outline.  Use a
+      // slightly darker grey than the kerf depth shading so individual kerfs
+      // stand out.  The stroke is solid black for maximum contrast.
+      ctx.strokeStyle = '#000000';
+      ctx.fillStyle = '#bbbbbb';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
       ctx.font = '12px Arial';
@@ -212,7 +218,9 @@ document.getElementById('calculate').addEventListener('click', function(e) {
         if (dist > C) continue;
         const xCenterPx = marginX + dist * scale;
         const kerfPx = kerf * scale;
-        // Shade the kerf gap (top portion only)
+        // Shade the kerf gap (top portion only).  Draw before the kerf line so
+        // the line sits on top of the shading.  The fill colour has been set
+        // above.
         ctx.fillRect(xCenterPx - kerfPx / 2, boardTopPx, kerfPx, cutDepthPx);
         // Draw the cut line
         ctx.beginPath();
@@ -257,13 +265,20 @@ document.getElementById('calculate').addEventListener('click', function(e) {
       const outerR = radius;
       const innerR = radius - (thickness - minThick);
       // Compute horizontal span in mm to scale into canvas width
-      const spanMm = 2 * outerR * Math.sin(half);
-      const marginX = 40;
-      const marginY = 20;
-      const widthPx = canvas.width - 2 * marginX;
-      const scale = widthPx / spanMm;
-      const centerX = canvas.width / 2;
-      const centerY = canvas.height - marginY;
+           const spanMm = 2 * outerR * Math.sin(half);
+           const marginX = 40;
+           const marginY = 20;
+           const widthPx = canvas.width - 2 * marginX;
+           const heightPx = canvas.height - 2 * marginY;
+           // Compute scale factors for horizontal and vertical constraints. The board's
+           // horizontal span must fit within widthPx and the full outer radius must
+           // fit within heightPx. Use the smaller of the two to maintain aspect ratio.
+           const widthScale = widthPx / spanMm;
+           const heightScale = heightPx / outerR;
+           const scale = Math.min(widthScale, heightScale);
+           const centerX = canvas.width / 2;
+           // Position the centre so the top of the outer arc touches marginY.
+           const centerY = marginY + outerR * scale;
 
       // Draw the board shape: outer arc, radial line, inner arc, radial line
       ctx.beginPath();
@@ -280,19 +295,22 @@ document.getElementById('calculate').addEventListener('click', function(e) {
       // inner arc back to start
       ctx.arc(centerX, centerY, innerR * scale, endAngle, startAngle, true);
       ctx.closePath();
-          // Fill and stroke the board segment. Use a light grey fill so the shape stands out against the white canvas.
-          ctx.fillStyle = '#e6e6e6';
-          ctx.strokeStyle = '#444';
-          ctx.lineWidth = 1;
-          ctx.fill();
-          ctx.stroke();
+      // Fill and stroke the board segment.  Use a white fill with a
+      // solid black outline so the board stands out crisply on the white
+      // canvas.  The outline is slightly thicker for better visibility.
+      ctx.fillStyle = '#ffffff';
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 1.5;
+      ctx.fill();
+      ctx.stroke();
 
       // Arc length C for positioning
       const C = Math.PI * radius * angle / 180;
       // For each cut, draw wedge and radial line
-           // Use a mid‑tone grey for the kerf wedges to contrast with the board segment.
-           ctx.fillStyle = '#bcbcbc';
-           ctx.strokeStyle = '#000';
+           // Use a mid‑tone grey for the kerf wedges to contrast with the board
+           // segment.  Set a black stroke for maximum contrast.
+           ctx.fillStyle = '#cccccc';
+           ctx.strokeStyle = '#000000';
       ctx.lineWidth = 1;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -343,7 +361,7 @@ document.getElementById('calculate').addEventListener('click', function(e) {
              ctx.fillStyle = '#000';
              ctx.fillText((i + 1).toString(), labelX, labelY);
              // Reset fill colour for wedges after drawing the label
-             ctx.fillStyle = '#bcbcbc';
+             ctx.fillStyle = '#cccccc';
       }
     }
 
