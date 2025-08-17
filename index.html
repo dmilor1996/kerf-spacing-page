@@ -265,11 +265,12 @@ document.getElementById('calculate').addEventListener('click', function(e) {
         ctx.moveTo(xCenterPx, boardTopPx);
         ctx.lineTo(xCenterPx, boardBottomPx);
         ctx.stroke();
-        // Label the distance along the board in centimetres (one decimal place)
+        // Label the distance along the board in millimetres.  Round to the nearest
+        // integer so the numbers correspond to positions along the board in mm.
         const labelY = boardBottomPx + 8;
         ctx.fillStyle = '#000000';
-        const distCm = (dist / 10).toFixed(1);
-        ctx.fillText(distCm, xCenterPx, labelY);
+        const distMm = Math.round(dist);
+        ctx.fillText(distMm.toString(), xCenterPx, labelY);
       }
     }
 
@@ -342,18 +343,13 @@ document.getElementById('calculate').addEventListener('click', function(e) {
         const frac = dist / arcLength;
         // Central angle for this cut on the outer arc (reverse direction).
         const theta = startAngle - frac * totalAngleRad;
-        // Base kerf angle (in radians) corresponding to the physical kerf width.
-        const kerfAngle = (kerf / arcLength) * totalAngleRad;
-        // Compute the mean angular spacing between cuts.  This is used
-        // along with the kerf angle and thickness ratio to scale the
-        // displayed wedge.  Without scaling, the kerf wedge would be
-        // extremely narrow and almost invisible.  See original Blocklayer
-        // implementation for similar logic.
+        // Compute the mean angular spacing between cuts and derive a
+        // visually meaningful wedge width.  We display each wedge with
+        // half the angular spacing between cut centres so the wedges are
+        // clearly visible.  This is not physically accurate but improves
+        // diagram clarity.
         const anglePerCut = totalAngleRad / positions.length;
-        const maxFactorFromSpacing = (anglePerCut / kerfAngle) * 0.5;
-        const factorFromThickness = (thickness / kerf) * 2.0;
-        const wedgeFactor = Math.min(maxFactorFromSpacing, factorFromThickness, 8);
-        const wedgeAngle = kerfAngle * wedgeFactor;
+        const wedgeAngle = anglePerCut * 0.5;
         const halfKerf = wedgeAngle / 2;
         const leftEdge = theta + halfKerf;
         const rightEdge = theta - halfKerf;
@@ -365,7 +361,7 @@ document.getElementById('calculate').addEventListener('click', function(e) {
         const baseRightX = centerX + outerR * scale * Math.cos(rightEdge);
         const baseRightY = centerY + outerR * scale * Math.sin(rightEdge);
         // Shade the kerf wedge with a mid‑tone grey so it stands out
-        ctx.fillStyle = '#bbbbbb';
+        ctx.fillStyle = '#e6e6e6';
         ctx.beginPath();
         ctx.moveTo(baseRightX, baseRightY);
         ctx.lineTo(baseLeftX, baseLeftY);
