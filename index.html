@@ -280,17 +280,19 @@ document.getElementById('calculate').addEventListener('click', function(e) {
       // inner arc back to start
       ctx.arc(centerX, centerY, innerR * scale, endAngle, startAngle, true);
       ctx.closePath();
-      ctx.fillStyle = '#f7f7f7';
-      ctx.strokeStyle = '#444';
-      ctx.lineWidth = 1;
-      ctx.fill();
-      ctx.stroke();
+          // Fill and stroke the board segment. Use a light grey fill so the shape stands out against the white canvas.
+          ctx.fillStyle = '#e6e6e6';
+          ctx.strokeStyle = '#444';
+          ctx.lineWidth = 1;
+          ctx.fill();
+          ctx.stroke();
 
       // Arc length C for positioning
       const C = Math.PI * radius * angle / 180;
       // For each cut, draw wedge and radial line
-      ctx.fillStyle = '#d0d0d0';
-      ctx.strokeStyle = '#000';
+           // Use a mid‑tone grey for the kerf wedges to contrast with the board segment.
+           ctx.fillStyle = '#bcbcbc';
+           ctx.strokeStyle = '#000';
       ctx.lineWidth = 1;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -338,9 +340,10 @@ document.getElementById('calculate').addEventListener('click', function(e) {
         const labelRadius = (innerR + outerR) / 2; // place halfway inside board
         const labelX = centerX + labelRadius * scale * Math.cos(theta);
         const labelY = centerY + labelRadius * scale * Math.sin(theta);
-        ctx.fillStyle = '#000';
-        ctx.fillText((i + 1).toString(), labelX, labelY);
-        ctx.fillStyle = '#d0d0d0'; // reset fill for wedge
+             ctx.fillStyle = '#000';
+             ctx.fillText((i + 1).toString(), labelX, labelY);
+             // Reset fill colour for wedges after drawing the label
+             ctx.fillStyle = '#bcbcbc';
       }
     }
 
