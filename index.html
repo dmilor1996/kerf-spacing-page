@@ -96,13 +96,15 @@
       <p>Enter values and click <strong>Calculate</strong> to see the kerf spacing results.</p>
     </div>
   </div>
-  <!-- Diagram section: a simple top-view graphic showing kerf cut positions.
-       A horizontal board is drawn with vertical lines indicating where cuts occur.
-       The shaded portion represents the depth of each cut relative to the board thickness. -->
-  <div style="margin-top: 30px;">
-    <canvas id="diagram" width="600" height="120" style="border:1px solid #ccc; max-width: 100%;"></canvas>
-    <p style="font-size: 12px; color: #555; margin-top: 8px;">Graphic representation (top view): vertical lines represent kerf cuts across the board. The darker strip at the bottom indicates the remaining minimum thickness that is not cut.</p>
-  </div>
+      <!-- Diagram sections: straight and curved representations. Each canvas illustrates the kerf spacing in two different views.
+           The first canvas shows a straight (top) view of the board with vertical cut lines and numbering.
+           The second canvas shows a curved view of the board with radial cuts and wedge-shaped kerfs. -->
+      <div style="margin-top: 30px;" id="diagramContainer">
+        <canvas id="straightDiagram" width="800" height="160" style="border:1px solid #ccc; width:100%; max-width:100%; display:block;"></canvas>
+        <p style="font-size: 12px; color: #555; margin-top: 4px;">Straight representation: vertical lines denote kerf cuts. Numbers indicate the cut sequence.</p>
+        <canvas id="curvedDiagram" width="800" height="300" style="border:1px solid #ccc; width:100%; max-width:100%; display:block;"></canvas>
+        <p style="font-size: 12px; color: #555; margin-top: 4px;">Curved representation: the board is bent into an arc; wedge shapes depict the kerf cuts.</p>
+      </div>
   <script>
     function calculate() {
       const radius = parseFloat(document.getElementById('radius').value);
@@ -139,8 +141,9 @@
       const resultStr = `${cuts} cuts of ${kerf.toFixed(2)} mm @ ${D.toFixed(1)} mm centres with ${r.toFixed(1)} mm wood width between cuts.`;
       resultsElem.innerHTML += `<p><strong>${resultStr}</strong></p>`;
 
-      // Draw dynamic diagram illustrating cut positions
-      drawDiagram(radius, angle, kerf, thickness, minThick, cuts, curveFromEnds, D);
+          // Draw dynamic diagrams illustrating cut positions in straight and curved views
+          drawStraightDiagram(radius, angle, kerf, thickness, minThick, cuts, curveFromEnds, D);
+          drawCurvedDiagram(radius, angle, kerf, thickness, minThick, cuts, curveFromEnds, D);
     }
 // Ensure clicking the button doesn't submit a form or reload the page
 document.getElementById('calculate').addEventListener('click', function(e) {
@@ -149,81 +152,200 @@ document.getElementById('calculate').addEventListener('click', function(e) {
     });
 
     /**
-     * Draw a simple top-view diagram of the kerf cuts on a board.  The board is represented
-     * as a horizontal rectangle.  Vertical lines show cut positions and the shaded portion
-     * represents the depth of the kerf cut relative to the board thickness.
+     * Draw the straight (top view) diagram of kerf cuts on a board.
+     * This draws a horizontal board with vertical lines indicating cuts and labels each cut.
      *
-     * @param {number} radius - Curve radius (mm). Used to compute arc length for scaling.
-     * @param {number} angle - Sweep angle (degrees).
-     * @param {number} kerf - Kerf width (mm).
-     * @param {number} thickness - Board thickness (mm).
-     * @param {number} minThick - Minimum remaining thickness after kerf (mm).
-     * @param {number} cuts - Number of cuts (integer).
-     * @param {boolean} curveFromEnds - Whether kerfs start from board ends.
-     * @param {number} D - Centre-to-centre spacing (mm).
+     * @param {number} radius - Curve radius in millimetres.
+     * @param {number} angle - Sweep angle in degrees.
+     * @param {number} kerf - Kerf width (blade thickness) in millimetres.
+     * @param {number} thickness - Board thickness in millimetres.
+     * @param {number} minThick - Minimum remaining thickness after cut (mm).
+     * @param {number} cuts - Number of cuts.
+     * @param {boolean} curveFromEnds - True if kerfs start from board ends.
+     * @param {number} D - Centre spacing between cut centres (mm).
      */
-    function drawDiagram(radius, angle, kerf, thickness, minThick, cuts, curveFromEnds, D) {
-      const canvas = document.getElementById('diagram');
+    function drawStraightDiagram(radius, angle, kerf, thickness, minThick, cuts, curveFromEnds, D) {
+      const canvas = document.getElementById('straightDiagram');
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
-      // Clear previous drawing
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Define drawing dimensions and margins
-      const marginX = 20;
+      // Compute total arc length for scaling
+      const C = Math.PI * radius * angle / 180;
+      // Margins and dimensions
+      const marginX = 40;
       const boardWidthPx = canvas.width - 2 * marginX;
-      const boardTopPx = 30;
-      const boardHeightPx = 40;
+      const boardTopPx = 40;
+      const boardHeightPx = 50;
+      const boardBottomPx = boardTopPx + boardHeightPx;
+      // Scale mm to pixels along board length
+      const scale = boardWidthPx / C;
 
-      // Draw board background and outline
-      ctx.fillStyle = '#f2e4c9'; // light wood colour for board body
-      ctx.strokeStyle = '#8b4513'; // darker outline
-      ctx.lineWidth = 1.5;
+      // Draw the board background
+      ctx.fillStyle = '#f7f7f7';
+      ctx.strokeStyle = '#444';
+      ctx.lineWidth = 1;
       ctx.fillRect(marginX, boardTopPx, boardWidthPx, boardHeightPx);
       ctx.strokeRect(marginX, boardTopPx, boardWidthPx, boardHeightPx);
 
-      // Calculate the proportion of the board that is cut (kerf depth)
+      // Compute kerf cut depth ratio for shading
       const cutDepthMm = thickness - minThick;
       const cutDepthRatio = cutDepthMm / thickness;
       const cutDepthPx = boardHeightPx * cutDepthRatio;
-      // Shade the region removed by kerfs (top portion)
-      ctx.fillStyle = '#d8c8a8';
+      // Shade the region that is removed by kerfs
+      ctx.fillStyle = '#e0e0e0';
       ctx.fillRect(marginX, boardTopPx, boardWidthPx, cutDepthPx);
-      // Shade the remaining wood (min thickness)
-      ctx.fillStyle = '#bca483';
-      ctx.fillRect(marginX, boardTopPx + cutDepthPx, boardWidthPx, boardHeightPx - cutDepthPx);
 
-      // Compute arc length on the outside curve (C) to determine scaling for positions
-      const C = Math.PI * radius * angle / 180;
-      // Scale factor: pixels per millimetre along the arc
-      const scale = boardWidthPx / C;
-
-      // Draw cut lines and shaded kerf widths
-      ctx.strokeStyle = '#333';
-      ctx.lineWidth = 1;
-      ctx.fillStyle = '#999';
+      // Draw each cut as a line and shade the kerf
+      ctx.strokeStyle = '#000';
+      ctx.fillStyle = '#c8c8c8';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      ctx.font = '12px Arial';
       for (let i = 0; i < cuts; i++) {
-        // Determine the position along the arc for the centre of each cut
         let dist;
         if (curveFromEnds) {
-          // When cuts start from board ends, first cut is offset by half of spacing
           dist = D / 2 + i * D;
         } else {
-          // Cuts start at one end
           dist = i * D;
         }
         if (dist > C) continue;
         const xCenterPx = marginX + dist * scale;
         const kerfPx = kerf * scale;
-        // Draw kerf region (gap) up to the depth of the cut
+        // Shade the kerf gap (top portion only)
         ctx.fillRect(xCenterPx - kerfPx / 2, boardTopPx, kerfPx, cutDepthPx);
-        // Draw vertical cut line through entire board
+        // Draw the cut line
         ctx.beginPath();
         ctx.moveTo(xCenterPx, boardTopPx);
-        ctx.lineTo(xCenterPx, boardTopPx + boardHeightPx);
+        ctx.lineTo(xCenterPx, boardBottomPx);
         ctx.stroke();
+        // Label cuts (1-based)
+        const labelY = boardBottomPx + 8;
+        ctx.fillStyle = '#000';
+        ctx.fillText((i + 1).toString(), xCenterPx, labelY);
+      }
+      // Optionally draw border for numbering baseline
+    }
+
+    /**
+     * Draw the curved view diagram of kerf cuts on a board.
+     * This renders a curved board segment with radial cut lines and wedge-shaped kerfs.
+     *
+     * @param {number} radius - Curve radius (mm).
+     * @param {number} angle - Sweep angle (degrees).
+     * @param {number} kerf - Kerf width (mm).
+     * @param {number} thickness - Board thickness (mm).
+     * @param {number} minThick - Minimum remaining thickness after kerf (mm).
+     * @param {number} cuts - Number of cuts.
+     * @param {boolean} curveFromEnds - Whether kerfs start from board ends.
+     * @param {number} D - Centre spacing (mm).
+     */
+    function drawCurvedDiagram(radius, angle, kerf, thickness, minThick, cuts, curveFromEnds, D) {
+      const canvas = document.getElementById('curvedDiagram');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Convert angle to radians and compute total angle
+      const totalAngleRad = angle * Math.PI / 180;
+      // Determine start and end angles in canvas coordinates.
+      // We draw the board concave downward (top of circle) using a clockwise arc from start to end.
+      const half = totalAngleRad / 2;
+      const startAngle = Math.PI / 2 + half; // e.g. 90° + half
+      const endAngle = Math.PI / 2 - half;   // e.g. 90° - half
+
+      const outerR = radius;
+      const innerR = radius - (thickness - minThick);
+      // Compute horizontal span in mm to scale into canvas width
+      const spanMm = 2 * outerR * Math.sin(half);
+      const marginX = 40;
+      const marginY = 20;
+      const widthPx = canvas.width - 2 * marginX;
+      const scale = widthPx / spanMm;
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height - marginY;
+
+      // Draw the board shape: outer arc, radial line, inner arc, radial line
+      ctx.beginPath();
+      ctx.moveTo(
+        centerX + outerR * scale * Math.cos(startAngle),
+        centerY + outerR * scale * Math.sin(startAngle)
+      );
+      ctx.arc(centerX, centerY, outerR * scale, startAngle, endAngle, false);
+      // radial line to inner arc at endAngle
+      ctx.lineTo(
+        centerX + innerR * scale * Math.cos(endAngle),
+        centerY + innerR * scale * Math.sin(endAngle)
+      );
+      // inner arc back to start
+      ctx.arc(centerX, centerY, innerR * scale, endAngle, startAngle, true);
+      ctx.closePath();
+      ctx.fillStyle = '#f7f7f7';
+      ctx.strokeStyle = '#444';
+      ctx.lineWidth = 1;
+      ctx.fill();
+      ctx.stroke();
+
+      // Arc length C for positioning
+      const C = Math.PI * radius * angle / 180;
+      // For each cut, draw wedge and radial line
+      ctx.fillStyle = '#d0d0d0';
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 1;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.font = '12px Arial';
+      for (let i = 0; i < cuts; i++) {
+        let dist;
+        if (curveFromEnds) {
+          dist = D / 2 + i * D;
+        } else {
+          dist = i * D;
+        }
+        if (dist > C) continue;
+        // Fraction along the arc from start to end
+        const frac = dist / C;
+        // Compute central angle for the cut on the outer arc
+        const theta = startAngle - frac * totalAngleRad;
+        // Wedge width at inner radius (kerf mm)
+        const angleDelta = kerf / innerR;
+        const leftEdge = theta + angleDelta / 2;
+        const rightEdge = theta - angleDelta / 2;
+        // Apex at inner radius (centre of kerf)
+        const apexX = centerX + innerR * scale * Math.cos(theta);
+        const apexY = centerY + innerR * scale * Math.sin(theta);
+        // Base vertices at outer radius along kerf edges
+        const baseRightX = centerX + outerR * scale * Math.cos(rightEdge);
+        const baseRightY = centerY + outerR * scale * Math.sin(rightEdge);
+        const baseLeftX = centerX + outerR * scale * Math.cos(leftEdge);
+        const baseLeftY = centerY + outerR * scale * Math.sin(leftEdge);
+        // Draw wedge shape
+        ctx.beginPath();
+        ctx.moveTo(apexX, apexY);
+        ctx.lineTo(baseRightX, baseRightY);
+        ctx.lineTo(baseLeftX, baseLeftY);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        // Draw central radial line
+        const outX = centerX + outerR * scale * Math.cos(theta);
+        const outY = centerY + outerR * scale * Math.sin(theta);
+        ctx.beginPath();
+        ctx.moveTo(outX, outY);
+        ctx.lineTo(apexX, apexY);
+        ctx.stroke();
+        // Draw cut number on inner arc slightly inward
+        const labelRadius = (innerR + outerR) / 2; // place halfway inside board
+        const labelX = centerX + labelRadius * scale * Math.cos(theta);
+        const labelY = centerY + labelRadius * scale * Math.sin(theta);
+        ctx.fillStyle = '#000';
+        ctx.fillText((i + 1).toString(), labelX, labelY);
+        ctx.fillStyle = '#d0d0d0'; // reset fill for wedge
       }
     }
+
+    // The drawDiagram function has been replaced with two more detailed diagram
+    // functions defined below: drawStraightDiagram and drawCurvedDiagram.
   </script>
 </body>
 </html>
